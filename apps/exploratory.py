@@ -41,7 +41,6 @@ def app():
     st.write(df.isnull().sum())
     df = df.astype({"Washer_No":"str","Dryer_No":"str"})
     st.write("Washer_No and Dryer_No is changed to categorical attribute")
-    st.write("Bapak Dia Project Ni Gempak Giler Bossku")
     num_cols = ['Age_Range', 'TimeSpent_minutes', 'buyDrinks', 'TotalSpent_RM', 'Num_of_Baskets']
     for col in num_cols:
         df[col].fillna(np.round(df[col].mean()), inplace=True)
@@ -112,7 +111,7 @@ def app():
     axes[6][2].tick_params(labelrotation=45)
     figs.append(fig)
     st.pyplot(fig)
-    st.write("Exploratory OMG")
+    st.write("Exploratory Questions")
     st.write("Q1: Are there more customers visiting during weekends as compared to weekdays?")
     st.write("Sunday and Saturday definitely have more customers visiting.")
     st.write("Bivariate Analysis - Numerical vs Numerical")
@@ -212,7 +211,7 @@ def app():
     ax.tick_params(labelrotation=90)
     figs.append(fig)
     st.pyplot(fig)
-    st.write('There is no difference in distribution of datas from the boxplot above thus kids does not affect')
+    st.write('There is no difference in distribution of datas from the boxplot above thus kids does not affect TotalSpent_RM, buyDrinks and TimeSpent_minutes')
 
     export_as_pdf = st.button("Export Report")
     if export_as_pdf:
@@ -227,28 +226,21 @@ def app():
         pdf.write(5,"3. period of the day \n")
         pdf.write(5,"4. is the date a holiday \n")
         pdf.write(5,"5. City of the location \n")
-        pdf.write(5,"We replace the city information for some rows that have incorrect value \n")
-        pdf.write(5,"Univariate Analysis - Numerical \n")
-        texttowrite = [
-            "\nAge_Range",
-            "\nTimeSpent_minutes",
-            "\nbuyDrinks",
-            "\nTotalSpent_RM",
-            "\nNum_of_Baskets",
-            "\nBar plot for all categorical variables in the dataset",
-            "\nQ1: Are there more customers visiting during weekends as compared to weekdays?\n   Sunday and Saturday definitely have more customers visiting.\n   Q2: Is there any relationship between the numerical features?",
-            "\nCorrelation Between Variables",
-            "\nQ3: Is there any relationship between basket size and race?",
-            "\nQ4: Did weather information impact the sales?",
-            "\nQ5: Do customers usually visit laundry shop at night?",
-            "\nQ8: Which Race has the highest TotalSpent_RM?",
-            "\nQ9: Do having kids affect TotalSpent_RM, buyDrinks and TimeSpent_minutes?",
-            "\nImage2"
-        ]
+        pdf.write(5,"We replace the city information for some rows that have incorrect value \n\n")
+        pdf.write(5,"Graph below are the compilation of all exploratory question\n")
+        pdf.write(5,"Q1: Are there more customers visiting during weekends as compared to weekdays?\n")
+        pdf.write(5,"Q2: Is there any relationship between the numerical features?\n")
+        pdf.write(5,"Q3: Is there any relationship between basket size and race?\n")
+        pdf.write(5,"Q4: Did weather information impact the sales?\n")
+        pdf.write(5,"Q5: Do customers usually visit laundry shop at night?\n")
+        pdf.write(5,"Q6: Do Num_of_Baskets & Basket_Size influence the TotalSpent_RM?\n")
+        pdf.write(5,"Q7: Do Race & TimeSpent_Minutes influence the TotalSpent_RM?\n")
+        pdf.write(5,"Q8: Which Race has the highest TotalSpent_RM?\n")
+        pdf.write(5,"Q9: Do having kids affect  TotalSpent_RM, buyDrinks and TimeSpent_minutes?\n")
+
         x=0
         for fig in figs:
             pdf.add_page()
-            pdf.write(5,texttowrite[x])
             with NamedTemporaryFile(delete=False, suffix=".png") as tmpfile:
                     fig.savefig(tmpfile.name)
                     pdf.image(tmpfile.name, 10, 10, 200, 250)
