@@ -217,10 +217,41 @@ def app():
     export_as_pdf = st.button("Export Report")
     if export_as_pdf:
         pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font('Arial', '', 14)
+        pdf.write(5,"Exploratory Data Analysis \n")
+        pdf.write(5,"We first add extra data points or features into the table \n")
+        pdf.write(5,"Datapoints added are \n")
+        pdf.write(5,"1. weather \n")
+        pdf.write(5,"2. day of the week \n")
+        pdf.write(5,"3. period of the day \n")
+        pdf.write(5,"4. is the date a holiday \n")
+        pdf.write(5,"5. City of the location \n")
+        pdf.write(5,"We replace the city information for some rows that have incorrect value \n")
+        pdf.write(5,"Univariate Analysis - Numerical \n")
+        texttowrite = [
+            "\nAge_Range",
+            "\nTimeSpent_minutes",
+            "\nbuyDrinks",
+            "\nTotalSpent_RM",
+            "\nNum_of_Baskets",
+            "\nBar plot for all categorical variables in the dataset",
+            "\nQ1: Are there more customers visiting during weekends as compared to weekdays?\n   Sunday and Saturday definitely have more customers visiting.\n   Q2: Is there any relationship between the numerical features?",
+            "\nCorrelation Between Variables",
+            "\nQ3: Is there any relationship between basket size and race?",
+            "\nQ4: Did weather information impact the sales?",
+            "\nQ5: Do customers usually visit laundry shop at night?",
+            "\nQ8: Which Race has the highest TotalSpent_RM?",
+            "\nQ9: Do having kids affect TotalSpent_RM, buyDrinks and TimeSpent_minutes?",
+            "\nImage2"
+        ]
+        x=0
         for fig in figs:
             pdf.add_page()
+            pdf.write(5,texttowrite[x])
             with NamedTemporaryFile(delete=False, suffix=".png") as tmpfile:
                     fig.savefig(tmpfile.name)
-                    pdf.image(tmpfile.name, 10, 10, 0, 0)
+                    pdf.image(tmpfile.name, 10, 10, 200, 250)
+                    x=x+1
         html = create_download_link(pdf.output(dest="S").encode("latin-1"), "testfile")
         st.markdown(html, unsafe_allow_html=True)
